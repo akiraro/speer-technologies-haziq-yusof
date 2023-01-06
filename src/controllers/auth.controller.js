@@ -1,8 +1,15 @@
 const bcrypt = require('bcrypt');
 const authService = require('../services/auth.service')
+const { validationResult } = require('express-validator')
 
 async function register(req, res, next) {
 	try {
+		/** Request payload validation */
+		const validationErrors = validationResult(req)
+
+		if (!validationErrors.isEmpty()){
+			return res.status(400).json({errors: validationErrors.array()})
+		}
 
 		/** Check if username is already exists */
 		const users = await authService.findUser(req.body.username)
@@ -26,6 +33,12 @@ async function register(req, res, next) {
 
 async function login(req, res, next) {
 	try {
+		/** Request payload validation */
+		const validationErrors = validationResult(req)
+
+		if (!validationErrors.isEmpty()){
+			return res.status(400).json({errors: validationErrors.array()})
+		}
 
 		const users = await authService.findUser(req.body.username)
 
