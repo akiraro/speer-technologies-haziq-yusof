@@ -1,6 +1,6 @@
 require('dotenv').config()
 
-const env = process.env.PORT;
+const env = process.env;
 
 const db = {
 	host: env.MYSQL_DB_HOST || 'localhost',
