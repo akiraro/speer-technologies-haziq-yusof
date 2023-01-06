@@ -40,6 +40,7 @@ app.get('/', limiter, (req, res) => {
 app.use('/user', authRouter);
 
 // Check if in test mode to avoid multiple servers running at the same port during testing
+/* istanbul ignore if */
 if (process.env.NODE_ENV !== 'test') {
 	app.listen(PORT, function () {
 		console.log('Social Media App is listening on port', PORT);
