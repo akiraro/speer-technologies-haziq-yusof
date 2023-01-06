@@ -1,0 +1,28 @@
+version: '3'
+services:
+  express-js:
+    build:
+      context: ./
+    ports:
+      - "3000:3000"
+    container_name: expressjs-server
+
+  db:
+    build:
+      context: ./
+    restart: always
+    environment:
+      - MYSQL_DATABASE=my_db
+      - MYSQL_PASSWORD=
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - my-db:/var/lib/mysql
+
+# Names our volume
+volumes:
+  my-db:
