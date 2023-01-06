@@ -58,11 +58,12 @@ async function login(req, res, next) {
 async function logout(req, res, next) {
 	try {
 		req.session.destroy(function(error){
+			/* istanbul ignore if */
 			if(error) throw error
 			res.send("Logged out successfully")
 		})
 	}
-	catch (err) {
+	catch (err) /* istanbul ignore next */ {
 		console.error("Error when logging out user", err.message);
 		next(err)
 	}

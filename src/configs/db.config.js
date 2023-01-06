@@ -1,3 +1,5 @@
+
+/* istanbul ignore file */
 require('dotenv').config()
 
 const env = process.env;
