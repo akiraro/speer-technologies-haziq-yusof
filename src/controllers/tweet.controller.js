@@ -125,6 +125,13 @@ async function createRetweet(req, res, next){
 		const tweetId = req.params.id
 		const userId = req.session.user.user_id
 
+		/** Make sure parent tweet exists */
+		const tweetResult = await tweetService.findOneTweet(tweetId, null)
+
+		if (tweetResult.length === 0){
+			return res.status(404).send("Not found")
+		}
+
 		let tweetData = req.body
 		tweetData['parentId'] = tweetId
 		tweetData['userId'] = userId
@@ -149,6 +156,13 @@ async function createTweetThread(req, res, next){
 		const tweetId = req.params.id
 		const userId = req.session.user.user_id
 
+		/** Make sure parent tweet exists */
+		const tweetResult = await tweetService.findOneTweet(tweetId, null)
+
+		if (tweetResult.length === 0){
+			return res.status(404).send("Not found")
+		}
+		
 		let tweetData = req.body
 		tweetData['parentId'] = tweetId
 		tweetData['userId'] = userId
@@ -156,7 +170,7 @@ async function createTweetThread(req, res, next){
 		const retweetResult = await tweetService.createTweetThread(tweetData, false)
 
 		if (retweetResult.affectedRows === 1){
-			return res.json({message: "Retweet created successfully"})
+			return res.json({message: "Tweet thread created successfully"})
 		}
 		
 		return res.status(400).json({message: "Error when creating a Retweet"})
