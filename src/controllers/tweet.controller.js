@@ -120,10 +120,110 @@ async function deleteOne(req, res, next){
 	}
 }
 
+async function createRetweet(req, res, next){
+	try {
+		const tweetId = req.params.id
+		const userId = req.session.user.user_id
+
+		let tweetData = req.body
+		tweetData['parentId'] = tweetId
+		tweetData['userId'] = userId
+
+		const retweetResult = await tweetService.createTweetThread(tweetData, true)
+
+		if (retweetResult.affectedRows === 1){
+			return res.json({message: "Retweet created successfully"})
+		}
+		
+		return res.status(400).json({message: "Error when creating a Retweet"})
+
+	}
+	catch (err){
+		console.error("Error when creating a retweet", err.message);
+		next(err)
+	}
+}
+
+async function createTweetThread(req, res, next){
+	try {
+		const tweetId = req.params.id
+		const userId = req.session.user.user_id
+
+		let tweetData = req.body
+		tweetData['parentId'] = tweetId
+		tweetData['userId'] = userId
+
+		const retweetResult = await tweetService.createTweetThread(tweetData, false)
+
+		if (retweetResult.affectedRows === 1){
+			return res.json({message: "Retweet created successfully"})
+		}
+		
+		return res.status(400).json({message: "Error when creating a Retweet"})
+
+	}
+	catch (err){
+		console.error("Error when creating a retweet", err.message);
+		next(err)
+	}
+}
+
+async function likeTweet(req, res, next){
+	try {
+		const tweetId = req.params.id
+		const userId = req.session.user.user_id
+
+		let tweetData = req.body
+		tweetData['tweetId'] = tweetId
+		tweetData['userId'] = userId
+
+		const retweetResult = await tweetService.createTweetLike(tweetData)
+
+		if (retweetResult.affectedRows === 1){
+			return res.json({message: "Tweet like created successfully"})
+		}
+		
+		return res.status(400).json({message: "Error when creating a Tweet Like"})
+
+	}
+	catch (err){
+		console.error("Error when creating a Tweet Like", err.message);
+		next(err)
+	}
+}
+
+async function unlikeTweet(req, res, next){
+	try {
+		const tweetId = req.params.id
+		const userId = req.session.user.user_id
+
+		let tweetData = req.body
+		tweetData['tweetId'] = tweetId
+		tweetData['userId'] = userId
+
+		const retweetResult = await tweetService.deleteTweetLike(tweetData)
+
+		if (retweetResult.affectedRows === 1){
+			return res.json({message: "Tweet like deleted successfully"})
+		}
+		
+		return res.status(400).json({message: "Error when deleting a Tweet Like"})
+
+	}
+	catch (err){
+		console.error("Error when deleting a Tweet Like", err.message);
+		next(err)
+	}
+}
+
 module.exports = {
 	create,
 	findOne,
 	findAll,
 	updateOne,
-	deleteOne
+	deleteOne,
+	createRetweet,
+	createTweetThread,
+	likeTweet,
+	unlikeTweet
 }
