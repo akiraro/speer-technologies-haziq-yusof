@@ -39,7 +39,7 @@ This repo contains all tasks for the backend assessment until section 3
 ### User Login
 **Method/URL**
 
- `POST` _/user/login
+ `POST` _/user/login_
 
 **Data**
 ```json
@@ -53,7 +53,7 @@ This repo contains all tasks for the backend assessment until section 3
 
 ['Set-Cookie'] in header for session
 
-## Tweet CRUD Endpoints (Section 2)
+## Tweet CRUD Endpoints (Section 3)
 ### Create Tweet
 **Method/URL**
 
