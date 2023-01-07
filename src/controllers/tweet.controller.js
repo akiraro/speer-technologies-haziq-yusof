@@ -19,7 +19,7 @@ async function create(req, res, next){
 			return res.json({message: "Tweet created successfully"})
 		}
 		
-		return res.json({message: "Error when creating a tweet"})
+		return res.status(400).json({message: "Error when creating a tweet"})
 
 	}
 	catch (err){
