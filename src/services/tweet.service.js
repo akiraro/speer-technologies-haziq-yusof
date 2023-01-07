@@ -53,13 +53,7 @@ async function updateOneTweet(tweetData){
 		[tweetData.text, tweetData.tweetId, tweetData.userId]
 	)
 	
-	let message = 'Error in updating tweet'
-
-	if (result.affectedRows){
-		message = 'Tweet updated successfully'
-	}
-
-	return {message}
+	return result 
 }
 
 module.exports = {
