@@ -1,15 +1,9 @@
 version: '3'
 services:
-  express-js:
-    build:
-      context: ./
-    ports:
-      - "3000:3000"
-    container_name: expressjs-server
-
   db:
     build:
       context: ./
+      dockerfile: ./db/Dockerfile
     restart: always
     environment:
       - MYSQL_DATABASE=my_db
@@ -22,6 +16,17 @@ services:
       - '3306'
     volumes:
       - my-db:/var/lib/mysql
+
+  express-js:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    ports:
+      - "3000:3000"
+    container_name: expressjs-server
+    expose:
+      - '3000'
+
 
 # Names our volume
 volumes:
