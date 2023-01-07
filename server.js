@@ -17,6 +17,7 @@ const limiter = rateLimit({
 })
 
 const authRouter = require('./src/routes/auth.route')
+const tweetRouter = require('./src/routes/tweet.route')
 
 app.use(cors())
 app.use(bodyParser.json({ limit: "50mb" }));
@@ -38,6 +39,7 @@ app.get('/', limiter, (req, res) => {
 
 /** All routes */
 app.use('/user', authRouter);
+app.use('', tweetRouter)
 
 // Check if in test mode to avoid multiple servers running at the same port during testing
 /* istanbul ignore if */
