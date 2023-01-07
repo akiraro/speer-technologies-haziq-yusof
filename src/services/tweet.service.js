@@ -16,7 +16,7 @@ async function createTweet(tweetData){
  */
 async function findOneTweet(tweetId, userId){
 	const queryString = userId ? 
-		'SELECT tweet_id, tweet_text, created_at, modified_at FROM tweet WHERE tweet_id = ? AND user_id = ?':
+		'SELECT tweet_id, tweet_text, parent_id, is_retweet, created_at, modified_at FROM tweet WHERE tweet_id = ? AND user_id = ?':
 		'SELECT user_id, tweet_id, tweet_text, created_at, modified_at FROM tweet WHERE tweet_id = ?'
 
 	const queryParams = userId ? 
@@ -30,7 +30,7 @@ async function findOneTweet(tweetId, userId){
 
 async function findAllTweet(userId){
 	const result = await db.query(
-		'SELECT tweet_id, tweet_text, created_at, modified_at FROM tweet WHERE user_id = ?',
+		'SELECT tweet_id, tweet_text, parent_id, is_retweet, created_at, modified_at FROM tweet WHERE user_id = ?',
 		[userId]
 	)
 
@@ -56,10 +56,53 @@ async function updateOneTweet(tweetData){
 	return result 
 }
 
+async function createTweetThread(tweetData, isRetweet){
+
+	const result = await db.query(
+		'INSERT INTO tweet (user_id, parent_id, tweet_text, is_retweet) VALUES (?, ?, ?, ?)',
+		[tweetData.userId, tweetData.parentId, tweetData.text, isRetweet ? 1:0]
+	)
+	
+	return result 
+}
+
+async function findTweetLike(tweetData){
+	const result = await db.query(
+		'SELECT * FROM tweet_like WHERE user_id = ? AND tweet_id = ?',
+		[tweetData.userId, tweetData.tweetId]
+	)
+
+	return result
+}
+
+async function createTweetLike(tweetData){
+
+	const result = await db.query(
+		'INSERT INTO tweet_like (user_id, tweet_id) VALUES (?, ?)',
+		[tweetData.userId, tweetData.tweetId]
+	)
+	
+	return result 
+}
+
+async function deleteTweetLike(tweetData){
+
+	const result = await db.query(
+		'DELETE FROM tweet_like WHERE tweet_id = ? and user_id = ?',
+		[tweetData.tweetId, tweetData.userId]
+	)
+	
+	return result 
+}
+
 module.exports = {
 	createTweet,
 	findOneTweet,
 	findAllTweet,
 	updateOneTweet,
-	deleteOneTweet
+	deleteOneTweet,
+	createTweetThread,
+	createTweetLike,
+	deleteTweetLike,
+	findTweetLike
 }

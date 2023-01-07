@@ -19,4 +19,16 @@ router.patch('/tweet/:id', isAuthenticated, tweetDataValidate, tweetController.u
 /** Delete single tweet resource endpoint */
 router.delete('/tweet/:id', isAuthenticated, tweetController.deleteOne)
 
+/** Create tweet thread resource endpoint */
+router.post('/tweet/:id', isAuthenticated, tweetDataValidate, tweetController.createTweetThread)
+
+/** Create retweet resource endpoint */
+router.post('/tweet/:id/retweet', isAuthenticated, tweetDataValidate, tweetController.createRetweet)
+
+/** Like tweet endpoint */
+router.post('/tweet/:id/like', isAuthenticated, tweetController.likeTweet)
+
+/** Unlike tweet endpoint */
+router.post('/tweet/:id/unlike', isAuthenticated, tweetController.unlikeTweet)
+
 module.exports = router
