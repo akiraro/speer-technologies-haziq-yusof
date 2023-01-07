@@ -53,7 +53,7 @@ This repo contains all tasks for the backend assessment until section 3
 
 ['Set-Cookie'] in header for session
 
-## Tweet CRUD Endpoints (Section 3)
+## Tweet CRUD Endpoints (Section 2)
 ### Create Tweet
 **Method/URL**
 
@@ -113,7 +113,7 @@ Required
 
 
 
-## Retweet, Like/Unlike, Threading Endpoints (Section 2)
+## Retweet, Like/Unlike, Threading Endpoints (Section 3)
 
 ### Create Retweet
 **Method/URL**
