@@ -9,6 +9,7 @@ services:
       - MYSQL_DATABASE=my_db
       - MYSQL_PASSWORD=
       - MYSQL_ROOT_PASSWORD=
+      - MYSQL_DB_HOST=db
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
     ports:
       - '3306:3306'
@@ -16,6 +17,8 @@ services:
       - '3306'
     volumes:
       - my-db:/var/lib/mysql
+    networks:
+      - dbnet
 
   express-js:
     build:
@@ -26,7 +29,18 @@ services:
     container_name: expressjs-server
     expose:
       - '3000'
+    environment:
+      - MYSQL_DATABASE=my_db
+      - MYSQL_PASSWORD=
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_DB_HOST=db
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    networks:
+      - dbnet
 
+networks:
+  dbnet:
+    driver: bridge
 
 # Names our volume
 volumes:
