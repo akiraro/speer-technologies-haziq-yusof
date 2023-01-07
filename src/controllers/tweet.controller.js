@@ -173,13 +173,21 @@ async function likeTweet(req, res, next){
 		const tweetId = req.params.id
 		const userId = req.session.user.user_id
 
-		let tweetData = req.body
+		let tweetData = {}
 		tweetData['tweetId'] = tweetId
 		tweetData['userId'] = userId
 
-		const retweetResult = await tweetService.createTweetLike(tweetData)
+		/** Check if user already like the tweet or not */
+		const findTweetLikeResult = await tweetService.findTweetLike(tweetData)
 
-		if (retweetResult.affectedRows === 1){
+		if (findTweetLikeResult.length !== 0){
+			return res.json({message: "Tweet like created successfully"})
+		}
+
+		/** If user have not like the tweet, then create a new tweet_like record */
+		const likeResult = await tweetService.createTweetLike(tweetData)
+
+		if (likeResult.affectedRows === 1){
 			return res.json({message: "Tweet like created successfully"})
 		}
 		
@@ -197,13 +205,13 @@ async function unlikeTweet(req, res, next){
 		const tweetId = req.params.id
 		const userId = req.session.user.user_id
 
-		let tweetData = req.body
+		let tweetData = {}
 		tweetData['tweetId'] = tweetId
 		tweetData['userId'] = userId
 
-		const retweetResult = await tweetService.deleteTweetLike(tweetData)
+		const likeResult = await tweetService.deleteTweetLike(tweetData)
 
-		if (retweetResult.affectedRows === 1){
+		if (likeResult.affectedRows === 1){
 			return res.json({message: "Tweet like deleted successfully"})
 		}
 		

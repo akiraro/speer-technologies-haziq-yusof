@@ -16,7 +16,7 @@ async function createTweet(tweetData){
  */
 async function findOneTweet(tweetId, userId){
 	const queryString = userId ? 
-		'SELECT tweet_id, tweet_text, created_at, modified_at FROM tweet WHERE tweet_id = ? AND user_id = ?':
+		'SELECT tweet_id, tweet_text, parent_id, is_retweet, created_at, modified_at FROM tweet WHERE tweet_id = ? AND user_id = ?':
 		'SELECT user_id, tweet_id, tweet_text, created_at, modified_at FROM tweet WHERE tweet_id = ?'
 
 	const queryParams = userId ? 
@@ -66,6 +66,15 @@ async function createTweetThread(tweetData, isRetweet){
 	return result 
 }
 
+async function findTweetLike(tweetData){
+	const result = await db.query(
+		'SELECT * FROM tweet_like WHERE user_id = ? AND tweet_id = ?',
+		[tweetData.userId, tweetData.tweetId]
+	)
+
+	return result
+}
+
 async function createTweetLike(tweetData){
 
 	const result = await db.query(
@@ -94,5 +103,6 @@ module.exports = {
 	deleteOneTweet,
 	createTweetThread,
 	createTweetLike,
-	deleteTweetLike
+	deleteTweetLike,
+	findTweetLike
 }

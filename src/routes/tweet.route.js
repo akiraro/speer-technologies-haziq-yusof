@@ -20,10 +20,10 @@ router.patch('/tweet/:id', isAuthenticated, tweetDataValidate, tweetController.u
 router.delete('/tweet/:id', isAuthenticated, tweetController.deleteOne)
 
 /** Create tweet thread resource endpoint */
-router.post('/tweet/:id', isAuthenticated, tweetController.createTweetThread)
+router.post('/tweet/:id', isAuthenticated, tweetDataValidate, tweetController.createTweetThread)
 
 /** Create retweet resource endpoint */
-router.post('/tweet/:id/retweet', isAuthenticated, tweetController.createRetweet)
+router.post('/tweet/:id/retweet', isAuthenticated, tweetDataValidate, tweetController.createRetweet)
 
 /** Like tweet endpoint */
 router.post('/tweet/:id/like', isAuthenticated, tweetController.likeTweet)
